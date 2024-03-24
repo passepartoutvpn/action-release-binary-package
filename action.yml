@@ -36,7 +36,7 @@ runs:
         MERGED_PATCH=$((($LIBRARY_PATCH + 1) * 100 + $SCRIPT_VERSION))
         TAG_NAME="$LIBRARY_MINOR.$MERGED_PATCH"
 
-        ./${GEN_SCRIPT} ${GEN_FRAMEWORK}
+        ./${GEN_SCRIPT} ${LIBRARY_VERSION} ${GEN_FRAMEWORK}
 
         echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
         echo "library_version=$LIBRARY_VERSION" >> $GITHUB_OUTPUT
