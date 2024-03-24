@@ -1,4 +1,4 @@
-name: Binary Package
+name: Release binary package
 inputs:
   framework:
     description: "The XCFramework output"
