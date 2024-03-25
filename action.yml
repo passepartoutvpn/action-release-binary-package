@@ -57,11 +57,12 @@ runs:
         TAG_NAME: ${{ steps.build.outputs.tag }}
         LIBRARY_VERSION: ${{ steps.build.outputs.library_version }}
         SCRIPT_VERSION: ${{ steps.build.outputs.script_version }}
+        FRAMEWORK: ${{ inputs.framework }}
         PACKAGE_ZIP: ${{ inputs.framework }}.zip
         PACKAGE_CHECKSUM: ${{ inputs.framework }}.zip.checksum
         PACKAGE_METADATA: "Package.swift"
       run: |
-        zip -yr "$PACKAGE_ZIP" "$FRAMEWORK_ARTIFACT"
+        zip -yr "$PACKAGE_ZIP" "$FRAMEWORK"
 
         CHECKSUM=`swift package compute-checksum "$PACKAGE_ZIP"`
         echo $CHECKSUM >$PACKAGE_CHECKSUM
