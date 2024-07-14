@@ -33,7 +33,7 @@ runs:
 
         SCRIPT_VERSION=${COMPOUND_VERSION#*-}
 
-        if [[ $SCRIPT_VERSION != $COMPOUND_VERSION ]]; then
+        if [[ "$SCRIPT_VERSION" != "$COMPOUND_VERSION" ]]; then
           MERGED_PATCH=$((($LIBRARY_PATCH + 1) * 100 + $SCRIPT_VERSION))
           TAG_NAME="$LIBRARY_MINOR.$MERGED_PATCH"
         else
