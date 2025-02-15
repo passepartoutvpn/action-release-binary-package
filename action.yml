@@ -38,6 +38,7 @@ runs:
           TAG_NAME="$LIBRARY_MINOR.$MERGED_PATCH"
         else
           TAG_NAME="$COMPOUND_VERSION"
+          SCRIPT_VERSION=""
         fi
 
         ./${GEN_SCRIPT} ${LIBRARY_VERSION} ${GEN_FRAMEWORK}
