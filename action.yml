@@ -76,7 +76,7 @@ runs:
         mv $PACKAGE_METADATA.tmp $PACKAGE_METADATA
 
         RELEASE_NAME="$LIBRARY_VERSION"
-        if [ "$SCRIPT_VERSION" -gt 0 ]; then
+        if [ -n "$SCRIPT_VERSION" ] && [ "$SCRIPT_VERSION" -gt 0 ]; then
           RELEASE_NAME="$RELEASE_NAME ($SCRIPT_VERSION)"
         fi
 
