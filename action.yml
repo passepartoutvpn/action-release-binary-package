@@ -6,6 +6,9 @@ inputs:
   script:
     description: "The script generating the XCFramework"
     required: true
+  prerelease:
+    description: "This is a pre-release"
+    default: false
   gpg-key:
     description: "The GPG key to commit the update"
     required: true
@@ -95,6 +98,7 @@ runs:
         name: ${{ steps.package.outputs.release_name }}
         tag_name: ${{ steps.build.outputs.tag }}
         generate_release_notes: true
+        prerelease: ${{ inputs.prerelease }}
         files: |
           ${{ steps.package.outputs.zip }}
           ${{ steps.package.outputs.checksum }}
