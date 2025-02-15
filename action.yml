@@ -14,9 +14,19 @@ inputs:
   version-file:
     description: "The version file (contains <lib_version>-<script_version>)"
     default: ".version"
+  repository:
+    description: "The target repository"
 runs:
   using: composite
   steps:
+    - name: Fall back to current repository
+      shell: bash
+      run: |
+        if [[ -z "${{ inputs.repository }}" ]]; then
+          echo "GEN_REPOSITORY=$GITHUB_REPOSITORY" >> $GITHUB_ENV
+        else
+          echo "GEN_REPOSITORY=${{ inputs.my_param }}" >> $GITHUB_ENV
+        fi
     - name: Build framework
       id: build
       shell: bash
@@ -94,6 +104,7 @@ runs:
         name: ${{ steps.package.outputs.release_name }}
         tag_name: ${{ steps.build.outputs.tag }}
         generate_release_notes: true
+        repository: ${{ env.GEN_REPOSITORY }}
         files: |
           ${{ steps.package.outputs.zip }}
           ${{ steps.package.outputs.checksum }}
