@@ -87,7 +87,11 @@ runs:
         git add $PACKAGE_METADATA
         git commit -m "$RELEASE_NAME"
         git tag "$TAG_NAME" -m "$RELEASE_NAME"
-        git push && git push --tags
+        if ! git push; then
+          echo "Unable to push to remote repository"
+          exit 1
+        fi
+        git push --tags
 
         echo "release_name=$RELEASE_NAME" >> $GITHUB_OUTPUT
         echo "zip=$PACKAGE_ZIP" >> $GITHUB_OUTPUT
