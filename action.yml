@@ -70,7 +70,6 @@ runs:
         PACKAGE_CHECKSUM: ${{ inputs.framework }}.zip.checksum
         PACKAGE_METADATA: "Package.swift"
       run: |
-        set -e
         zip -yr "$PACKAGE_ZIP" "$FRAMEWORK"
 
         CHECKSUM=`swift package compute-checksum "$PACKAGE_ZIP"`
