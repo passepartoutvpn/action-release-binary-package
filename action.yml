@@ -6,10 +6,6 @@ inputs:
   script:
     description: "The script generating the XCFramework"
     required: true
-  repository:
-    description: "The repository where to create the release"
-    required: false
-    default: ${{ env.GITHUB_REPOSITORY }}
   prerelease:
     description: "This is a pre-release"
     default: false
@@ -103,7 +99,6 @@ runs:
     - name: Publish release
       uses: softprops/action-gh-release@v2
       with:
-        repository: ${{ inputs.repository }}
         name: ${{ steps.package.outputs.release_name }}
         tag_name: ${{ steps.build.outputs.tag }}
         generate_release_notes: true
