@@ -17,6 +17,9 @@ inputs:
   version-file:
     description: "The version file (contains <lib_version>-<script_version>)"
     default: ".version"
+  manifest-file:
+    description: "The path to the SwiftPM manifest"
+    default: "Package.swift"
 runs:
   using: composite
   steps:
@@ -68,23 +71,23 @@ runs:
         FRAMEWORK: ${{ inputs.framework }}
         PACKAGE_ZIP: ${{ inputs.framework }}.zip
         PACKAGE_CHECKSUM: ${{ inputs.framework }}.zip.checksum
-        PACKAGE_METADATA: "Package.swift"
+        PACKAGE_MANIFEST: ${{ inputs.manifest-file }}
       run: |
         zip -yr "$PACKAGE_ZIP" "$FRAMEWORK"
 
         CHECKSUM=`swift package compute-checksum "$PACKAGE_ZIP"`
         echo $CHECKSUM >$PACKAGE_CHECKSUM
 
-        sed -E "s/let version = \"[0-9\.]*\"/let version = \"${TAG_NAME}\"/" $PACKAGE_METADATA |
-            sed -E "s/let checksum = \"[0-9a-f]*\"/let checksum = \"${CHECKSUM}\"/" >$PACKAGE_METADATA.tmp
-        mv $PACKAGE_METADATA.tmp $PACKAGE_METADATA
+        sed -E "s/let version = \"[0-9\.]*\"/let version = \"${TAG_NAME}\"/" $PACKAGE_MANIFEST |
+            sed -E "s/let checksum = \"[0-9a-f]*\"/let checksum = \"${CHECKSUM}\"/" >$PACKAGE_MANIFEST.tmp
+        mv $PACKAGE_MANIFEST.tmp $PACKAGE_MANIFEST
 
         RELEASE_NAME="$LIBRARY_VERSION"
         if [ -n "$SCRIPT_VERSION" ] && [ "$SCRIPT_VERSION" -gt 0 ]; then
           RELEASE_NAME="$RELEASE_NAME ($SCRIPT_VERSION)"
         fi
 
-        git add $PACKAGE_METADATA
+        git add $PACKAGE_MANIFEST
         git commit -m "$RELEASE_NAME"
         git tag "$TAG_NAME" -m "$RELEASE_NAME"
         if ! git push; then
